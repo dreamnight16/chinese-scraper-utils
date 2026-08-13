@@ -18,6 +18,7 @@ from typing import TYPE_CHECKING, Protocol, runtime_checkable
 from chinese_scraper_utils._category import guess_category
 from chinese_scraper_utils._city import CITIES
 from chinese_scraper_utils._date import parse_date
+from chinese_scraper_utils.errors import ExtractionError, ScraperError
 
 if TYPE_CHECKING:
     from chinese_scraper_utils._ai import DeepSeekClient
@@ -226,16 +227,21 @@ def _extract_raw(
             temperature=temperature,
             max_tokens=8192,
         )
-        if isinstance(result, dict):
-            # 有时候 LLM 返回 {"events": [...]} 而不是直接数组
-            result = result.get("events", [])
-        if not isinstance(result, list):
-            logger.warning("LLM extraction returned non-list: %s", type(result))
-            return []
-        return result
+    except ScraperError:
+        # 熔断打开 / 限流 / 网络等已分类错误 — 上抛，让调用方区分“空结果”与“失败”。
+        raise
     except Exception as e:
         logger.warning("LLM extraction call failed: %s", e)
         return []
+    if isinstance(result, dict):
+        # 有时候 LLM 返回 {"events": [...]} 而不是直接数组
+        result = result.get("events", [])
+    if not isinstance(result, list):
+        raise ExtractionError(
+            f"LLM extraction returned unexpected type {type(result).__name__}",
+            raw_response=str(result)[:200],
+        )
+    return result
 
 
 # ═══════════════════════════════════════════════════════════════

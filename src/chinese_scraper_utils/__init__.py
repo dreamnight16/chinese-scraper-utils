@@ -33,7 +33,6 @@ from chinese_scraper_utils.errors import (
     NetworkError,
     RateLimitError,
     ScraperError,
-    ValidationError,
 )
 
 __all__ = [
@@ -53,7 +52,6 @@ __all__ = [
     "ScraperError",
     "RateLimitError",
     "ExtractionError",
-    "ValidationError",
     "NetworkError",
     "CircuitBreakerOpen",
     "SearchResult",

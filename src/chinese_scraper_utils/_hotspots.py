@@ -233,7 +233,8 @@ def scrape_hackernews_top() -> list[HotTopic]:
                     source="Hacker News",
                     raw_score=score,
                 )
-            except Exception:
+            except Exception as e:
+                logger.warning("[hn] item %s error: %s", hid, e)
                 return None
 
         with ThreadPoolExecutor(max_workers=5) as pool:

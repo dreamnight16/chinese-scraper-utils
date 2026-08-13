@@ -70,14 +70,16 @@ class TestExtractDate:
         assert result == "2026-05-04"
 
     def test_month_day_only(self):
-        result = extract_date("5月4日有活动")
-        year = datetime.now().year
-        assert result == f"{year}-05-04"
+        # Use today's month/day: it can never be >90 days in the past,
+        # so the cross-year inference does not trigger.
+        now = datetime.now()
+        result = extract_date(f"{now.month}月{now.day}日有活动")
+        assert result == now.strftime("%Y-%m-%d")
 
     def test_range_format(self):
-        result = extract_date("5月4日-6日广州")
-        year = datetime.now().year
-        assert result == f"{year}-05-04"
+        now = datetime.now()
+        result = extract_date(f"{now.month}月{now.day}日-{now.day}日广州")
+        assert result == now.strftime("%Y-%m-%d")
 
     def test_no_date(self):
         assert extract_date("今天天气不错") == ""

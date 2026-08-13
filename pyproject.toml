@@ -41,9 +41,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/sixtdreanight/chinese-scraper-utils"
-Repository = "https://github.com/sixtdreanight/chinese-scraper-utils.git"
-Issues = "https://github.com/sixtdreanight/chinese-scraper-utils/issues"
+Homepage = "https://github.com/dreamnight16/chinese-scraper-utils"
+Repository = "https://github.com/dreamnight16/chinese-scraper-utils.git"
+Issues = "https://github.com/dreamnight16/chinese-scraper-utils/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]

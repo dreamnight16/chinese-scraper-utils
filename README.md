@@ -10,7 +10,7 @@
 
 Shared Python utilities for Chinese-language web scraping — date parsing, city extraction, stable ID generation, UA rotation, rate limiting, web search, hot topic scrapers, LLM-powered event extraction, and a DeepSeek API client.
 
-Extracted from [ComiRadar](https://github.com/sixtdreanight/ComiRadar) and [weekly-hotspot](https://github.com/sixtdreanight/weekly-hotspot).
+Extracted from [ComiRadar](https://github.com/dreamnight16/ComiRadar) and [weekly-hotspot](https://github.com/dreamnight16/weekly-hotspot).
 
 ---
 
@@ -115,8 +115,8 @@ python -m chinese_scraper_utils extract posts.json -t "漫展,演唱会" -c 0.5 
 
 ## Related
 
-- [ComiRadar](https://github.com/sixtdreanight/ComiRadar) — Anime event scraper using this library
-- [weekly-hotspot](https://github.com/sixtdreanight/weekly-hotspot) — Weekly hot topics analysis
+- [ComiRadar](https://github.com/dreamnight16/ComiRadar) — Anime event scraper using this library
+- [weekly-hotspot](https://github.com/dreamnight16/weekly-hotspot) — Weekly hot topics analysis
 
 ## License
 

@@ -10,7 +10,7 @@
 
 中国語 Web スクレイピング用汎用ツールライブラリ — 日付解析、都市抽出、安定 ID 生成、UA ローテーション、レート制限、Web 検索、ホットランキング取得、LLM イベント抽出、DeepSeek API クライアント。
 
-[ComiRadar](https://github.com/sixtdreanight/ComiRadar) および [weekly-hotspot](https://github.com/sixtdreanight/weekly-hotspot) から抽出されました。
+[ComiRadar](https://github.com/dreamnight16/ComiRadar) および [weekly-hotspot](https://github.com/dreamnight16/weekly-hotspot) から抽出されました。
 
 ---
 
@@ -115,8 +115,8 @@ python -m chinese_scraper_utils extract posts.json -t "漫展,演唱會" -c 0.5 
 
 ## 関連プロジェクト
 
-- [ComiRadar](https://github.com/sixtdreanight/ComiRadar) — アニメイベントクローラー、本ライブラリを使用
-- [weekly-hotspot](https://github.com/sixtdreanight/weekly-hotspot) — 週間ホットトピックの詳細分析
+- [ComiRadar](https://github.com/dreamnight16/ComiRadar) — アニメイベントクローラー、本ライブラリを使用
+- [weekly-hotspot](https://github.com/dreamnight16/weekly-hotspot) — 週間ホットトピックの詳細分析
 
 ## ライセンス
 

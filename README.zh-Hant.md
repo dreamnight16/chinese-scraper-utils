@@ -10,7 +10,7 @@
 
 中文網路爬蟲通用工具庫 — 日期解析、城市提取、穩定 ID 生成、UA 輪換、速率限制、網頁搜尋、熱榜抓取、LLM 事件提取及 DeepSeek API 用戶端。
 
-從 [ComiRadar](https://github.com/sixtdreanight/ComiRadar) 和 [weekly-hotspot](https://github.com/sixtdreanight/weekly-hotspot) 中抽離。
+從 [ComiRadar](https://github.com/dreamnight16/ComiRadar) 和 [weekly-hotspot](https://github.com/dreamnight16/weekly-hotspot) 中抽離。
 
 ---
 
@@ -115,8 +115,8 @@ python -m chinese_scraper_utils extract posts.json -t "漫展,演唱會" -c 0.5 
 
 ## 相關專案
 
-- [ComiRadar](https://github.com/sixtdreanight/ComiRadar) — 動漫活動爬蟲，使用了本工具庫
-- [weekly-hotspot](https://github.com/sixtdreanight/weekly-hotspot) — 每週熱點深度分析
+- [ComiRadar](https://github.com/dreamnight16/ComiRadar) — 動漫活動爬蟲，使用了本工具庫
+- [weekly-hotspot](https://github.com/dreamnight16/weekly-hotspot) — 每週熱點深度分析
 
 ## 授權條款
 

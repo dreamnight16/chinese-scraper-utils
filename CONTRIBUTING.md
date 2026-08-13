@@ -5,7 +5,7 @@ Thanks for your interest in contributing!
 ## Getting Started
 
 ```bash
-git clone https://github.com/sixtdreanight/chinese-scraper-utils.git
+git clone https://github.com/dreamnight16/chinese-scraper-utils.git
 cd chinese-scraper-utils
 pip install -e ".[dev]"
 pytest
@@ -56,6 +56,6 @@ Types: `feat` `fix` `refactor` `test` `docs` `chore` `perf` `ci`
 
 ## Questions?
 
-Open a [discussion](https://github.com/sixtdreanight/chinese-scraper-utils/discussions).
+Open a [discussion](https://github.com/dreamnight16/chinese-scraper-utils/discussions).
 
 [conv]: https://www.conventionalcommits.org/

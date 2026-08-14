@@ -52,6 +52,26 @@ class TestParseDate:
         result = parse_date("2026-05")
         assert result == ""
 
+    def test_iso_z_suffix(self):
+        """Trailing 'Z' (UTC) is normalized before ISO parsing."""
+        assert parse_date("2026-05-04T14:30:00Z") == "2026-05-04"
+
+    def test_iso_timezone_offset(self):
+        assert parse_date("2026-05-04T14:30:00+08:00") == "2026-05-04"
+
+    def test_iso_fractional_seconds(self):
+        assert parse_date("2026-05-04T14:30:00.123456") == "2026-05-04"
+
+    def test_int_input(self):
+        """Integer compact form is stringified then matched by %Y%m%d."""
+        assert parse_date(20260504) == "2026-05-04"
+
+    def test_none_input(self):
+        assert parse_date(None) == ""
+
+    def test_whitespace_stripped(self):
+        assert parse_date("  2026-05-04  ") == "2026-05-04"
+
 
 class TestTryParseDate:
     def test_valid_date(self):
@@ -62,6 +82,9 @@ class TestTryParseDate:
 
     def test_garbage_returns_none(self):
         assert try_parse_date("not a date") is None
+
+    def test_none_input(self):
+        assert try_parse_date(None) is None
 
 
 class TestExtractDate:
@@ -101,3 +124,26 @@ class TestExtractDate:
         """Explicit year should prevent cross-year advancement."""
         result = extract_date("2025年1月1日有活动")
         assert result == "2025-01-01"
+
+    def test_dot_separated_full_date(self):
+        assert extract_date("2026.5.4上海有漫展") == "2026-05-04"
+
+    def test_full_date_without_day_suffix(self):
+        """'日'/'号' suffix is optional for the full-year pattern."""
+        assert extract_date("2026年5月4上海") == "2026-05-04"
+
+    def test_future_month_day_stays_current_year(self):
+        """A future month/day must never roll to the next year."""
+        year = datetime.now().year
+        assert extract_date("12月31日有活动") == f"{year}-12-31"
+
+    def test_range_returns_start_day(self):
+        """Range format collapses to the start day (current year)."""
+        year = datetime.now().year
+        assert extract_date("12月25日-1月3日广州") == f"{year}-12-25"
+
+    def test_invalid_month_returns_empty(self):
+        assert extract_date("13月40日有活动") == ""
+
+    def test_invalid_day_returns_empty(self):
+        assert extract_date("2月30日有活动") == ""

@@ -13,15 +13,12 @@ import logging
 import re
 from collections.abc import Callable
 from pathlib import Path
-from typing import TYPE_CHECKING, Protocol, runtime_checkable
+from typing import Protocol, runtime_checkable
 
 from chinese_scraper_utils._category import guess_category
 from chinese_scraper_utils._city import CITIES
 from chinese_scraper_utils._date import parse_date
 from chinese_scraper_utils.errors import ExtractionError, ScraperError
-
-if TYPE_CHECKING:
-    from chinese_scraper_utils._ai import DeepSeekClient
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +27,7 @@ logger = logging.getLogger(__name__)
 class LLMClient(Protocol):
     """LLM 客户端协议 — EventExtractor 可接受任何满足此协议的 provider。
 
-    DeepSeekClient 已满足此协议，无需额外适配。
+    DeepSeekClient 以及其他兼容客户端都可以直接使用，无需额外适配。
     """
     model: str
     def chat(self, messages: list[dict], *, temperature: float = ..., max_tokens: int = ...) -> str: ...
@@ -642,7 +639,7 @@ class EventExtractor:
 
 def extract_events(
     texts: list[str],
-    client: DeepSeekClient,
+    client: LLMClient,
     *,
     event_types: list[str],
     min_confidence: float = 0.5,

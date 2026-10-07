@@ -4,8 +4,8 @@ requires-python = ">=3.11"
 resolution-markers = [
     "python_full_version >= '3.15'",
     "python_full_version >= '3.13' and python_full_version < '3.15' and sys_platform == 'emscripten'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten'",
     "python_full_version >= '3.13' and python_full_version < '3.15' and sys_platform != 'emscripten'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten'",
     "(python_full_version < '3.13' and sys_platform != 'emscripten') or (python_full_version < '3.12' and sys_platform == 'emscripten')",
 ]
 
@@ -296,7 +296,6 @@ version = "0.3.0"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },
-    { name = "openai" },
 ]
 
 [package.optional-dependencies]
@@ -306,10 +305,14 @@ async = [
 dev = [
     { name = "bandit" },
     { name = "mypy" },
+    { name = "openai" },
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "pytest-cov" },
     { name = "ruff" },
+]
+llm = [
+    { name = "openai" },
 ]
 search = [
     { name = "ddgs" },
@@ -322,13 +325,14 @@ requires-dist = [
     { name = "httpx", specifier = ">=0.24" },
     { name = "httpx", marker = "extra == 'async'", specifier = ">=0.25" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.8" },
-    { name = "openai", specifier = ">=1.0" },
+    { name = "openai", marker = "extra == 'dev'", specifier = ">=1.0" },
+    { name = "openai", marker = "extra == 'llm'", specifier = ">=1.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.0" },
     { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=0.21" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.3" },
 ]
-provides-extras = ["search", "async", "dev"]
+provides-extras = ["search", "async", "llm", "dev"]
 
 [[package]]
 name = "click"

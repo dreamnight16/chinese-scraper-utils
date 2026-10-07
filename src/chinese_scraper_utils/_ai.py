@@ -14,9 +14,12 @@ import time
 from collections.abc import Callable
 from typing import Any
 
-from openai import APIConnectionError, APIStatusError, APITimeoutError, OpenAI
-
 from chinese_scraper_utils.errors import CircuitBreakerOpen
+
+try:
+    from openai import APIConnectionError, APIStatusError, APITimeoutError, OpenAI
+except ImportError:  # pragma: no cover - exercised by the optional-dependency test
+    OpenAI = None  # type: ignore[assignment]
 
 logger = logging.getLogger(__name__)
 
@@ -95,6 +98,12 @@ class DeepSeekClient:
         max_retries: int = 3,
         thinking: bool = False,
     ):
+        if OpenAI is None:
+            raise ImportError(
+                "DeepSeekClient requires the optional 'openai' dependency. "
+                "Install it with: pip install chinese-scraper-utils[llm]"
+            )
+
         self.base_url = base_url
         self.model = model
         self.max_retries = max_retries

@@ -2,6 +2,7 @@
 
 import json
 import os
+import subprocess
 import sys
 import tempfile
 from pathlib import Path
@@ -212,3 +213,42 @@ class TestMainNoCommand:
                 assert e.code == 1
         captured = capsys.readouterr()
         assert any(w in captured.out for w in ["search", "scrape", "usage", "Chinese", "中文"])
+
+
+def test_core_imports_without_openai():
+    """Core scraping utilities remain usable when the optional LLM SDK is absent."""
+    package_root = Path(__file__).parents[1]
+    script = r'''
+import builtins
+
+real_import = builtins.__import__
+
+def block_openai(name, *args, **kwargs):
+    if name == "openai" or name.startswith("openai."):
+        raise ModuleNotFoundError("openai intentionally blocked")
+    return real_import(name, *args, **kwargs)
+
+builtins.__import__ = block_openai
+
+import chinese_scraper_utils as utils
+
+assert utils.parse_date("2026-05-04") == "2026-05-04"
+assert isinstance(utils.random_ua(), str)
+
+try:
+    utils.DeepSeekClient(api_key="test")
+except ImportError as exc:
+    assert "chinese-scraper-utils[llm]" in str(exc)
+else:
+    raise AssertionError("DeepSeekClient should require the optional openai dependency")
+'''
+    env = os.environ.copy()
+    env["PYTHONPATH"] = str(package_root / "src") + os.pathsep + env.get("PYTHONPATH", "")
+    result = subprocess.run(
+        [sys.executable, "-c", script],
+        cwd=package_root,
+        env=env,
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stderr

@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License">
 </p>
 
-中文网络爬虫通用工具库 — 日期解析、城市提取、稳定 ID 生成、UA 轮换、速率限制、网页搜索、热榜抓取、LLM 事件提取及 DeepSeek API 客户端。
+中文网络爬虫通用工具库 — 日期解析、城市提取、稳定 ID 生成、UA 轮换、速率限制、网页搜索、热榜抓取，以及可选的 LLM 事件提取和 DeepSeek API 客户端。
 
 从 [ComiRadar](https://github.com/dreamnight16/ComiRadar) 和 [weekly-hotspot](https://github.com/dreamnight16/weekly-hotspot) 中抽离。
 
@@ -17,11 +17,14 @@
 ## 安装
 
 ```bash
-# 核心功能（除 httpx + openai 外无额外依赖）
+# 核心工具（仅需 httpx）
 pip install chinese-scraper-utils
 
 # 包含网页搜索支持
 pip install chinese-scraper-utils[search]
+
+# 使用可选的 DeepSeek/LLM 客户端
+pip install chinese-scraper-utils[llm]
 ```
 
 ---
@@ -36,7 +39,7 @@ from chinese_scraper_utils import (
     search_web,
     # 热榜抓取
     scrape_weibo_hot, scrape_zhihu_hot,
-    # LLM 事件提取
+    # 可选的 LLM 事件提取（使用前安装 [llm] extra）
     DeepSeekClient, EventExtractor,
 )
 
@@ -85,7 +88,7 @@ events = extractor.extract(["五一北京漫展嘉年华在国家会议中心...
 | `random_ua()` | `→ str` | 随机 UA 选择 |
 | `stable_id(*parts)` | `str → str` | 确定性 SHA256 短 ID |
 | `RateLimiter` | class | 异步速率限制器（重试 + 抖动） |
-| `DeepSeekClient` | class | DeepSeek API 客户端（同步/异步，重试） |
+| `DeepSeekClient` | class | 可选的 DeepSeek API 客户端（同步/异步，重试） |
 | **新** `SearchResult` | dataclass | 网页搜索结果（标题/URL/摘要） |
 | **新** `search_web(query, n)` | `→ list[SearchResult]` | DuckDuckGo 网页搜索 |
 | **新** `HotTopic` | dataclass | 统一热榜条目（标题/摘要/URL/来源） |

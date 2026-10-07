@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License">
 </p>
 
-Shared Python utilities for Chinese-language web scraping — date parsing, city extraction, stable ID generation, UA rotation, rate limiting, web search, hot topic scrapers, LLM-powered event extraction, and a DeepSeek API client.
+Shared Python utilities for Chinese-language web scraping — date parsing, city extraction, stable ID generation, UA rotation, rate limiting, web search, hot topic scrapers, and an optional LLM event extraction pipeline with a DeepSeek API client.
 
 Extracted from [ComiRadar](https://github.com/dreamnight16/ComiRadar) and [weekly-hotspot](https://github.com/dreamnight16/weekly-hotspot).
 
@@ -17,11 +17,14 @@ Extracted from [ComiRadar](https://github.com/dreamnight16/ComiRadar) and [weekl
 ## Installation
 
 ```bash
-# Core (zero extra dependencies beyond httpx + openai)
+# Core utilities (only httpx is required)
 pip install chinese-scraper-utils
 
 # With web search support
 pip install chinese-scraper-utils[search]
+
+# With the optional DeepSeek/LLM client
+pip install chinese-scraper-utils[llm]
 ```
 
 ---
@@ -36,7 +39,7 @@ from chinese_scraper_utils import (
     search_web,
     # Hot topic scrapers
     scrape_weibo_hot, scrape_zhihu_hot,
-    # LLM extraction
+    # Optional LLM extraction (install the [llm] extra before use)
     DeepSeekClient, EventExtractor,
 )
 
@@ -85,7 +88,7 @@ events = extractor.extract(["五一北京漫展嘉年华在国家会议中心...
 | `random_ua()` | `→ str` | Random UA selection |
 | `stable_id(*parts)` | `str → str` | Deterministic SHA256 short ID |
 | `RateLimiter` | class | Async rate limiter with retry + jitter |
-| `DeepSeekClient` | class | DeepSeek API client (sync/async, retry) |
+| `DeepSeekClient` | class | Optional DeepSeek API client (sync/async, retry) |
 | **NEW** `SearchResult` | dataclass | Web search result (title/url/snippet) |
 | **NEW** `search_web(query, n)` | `→ list[SearchResult]` | DuckDuckGo web search |
 | **NEW** `HotTopic` | dataclass | Unified hot topic (title/summary/url/source) |

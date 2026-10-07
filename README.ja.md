@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License">
 </p>
 
-中国語 Web スクレイピング用汎用ツールライブラリ — 日付解析、都市抽出、安定 ID 生成、UA ローテーション、レート制限、Web 検索、ホットランキング取得、LLM イベント抽出、DeepSeek API クライアント。
+中国語 Web スクレイピング用汎用ツールライブラリ — 日付解析、都市抽出、安定 ID 生成、UA ローテーション、レート制限、Web 検索、ホットランキング取得、およびオプションの LLM イベント抽出と DeepSeek API クライアント。
 
 [ComiRadar](https://github.com/dreamnight16/ComiRadar) および [weekly-hotspot](https://github.com/dreamnight16/weekly-hotspot) から抽出されました。
 
@@ -17,11 +17,14 @@
 ## インストール
 
 ```bash
-# コア機能（httpx + openai 以外に追加依存関係なし）
+# コアツール（httpx のみ必須）
 pip install chinese-scraper-utils
 
 # Web 検索サポートを含む
 pip install chinese-scraper-utils[search]
+
+# オプションの DeepSeek/LLM クライアントを使用する場合
+pip install chinese-scraper-utils[llm]
 ```
 
 ---
@@ -36,7 +39,7 @@ from chinese_scraper_utils import (
     search_web,
     # ホットランキング取得
     scrape_weibo_hot, scrape_zhihu_hot,
-    # LLM イベント抽出
+    # オプションの LLM イベント抽出（使用前に [llm] extra をインストール）
     DeepSeekClient, EventExtractor,
 )
 
@@ -85,7 +88,7 @@ events = extractor.extract(["五一北京漫展嘉年華在國家會議中心...
 | `random_ua()` | `→ str` | ランダム UA 選択 |
 | `stable_id(*parts)` | `str → str` | 決定論的 SHA256 短 ID |
 | `RateLimiter` | class | 非同期レート制限器（リトライ + ジッター） |
-| `DeepSeekClient` | class | DeepSeek API クライアント（同期/非同期、リトライ） |
+| `DeepSeekClient` | class | オプションの DeepSeek API クライアント（同期/非同期、リトライ） |
 | **新** `SearchResult` | dataclass | Web 検索結果（タイトル/URL/概要） |
 | **新** `search_web(query, n)` | `→ list[SearchResult]` | DuckDuckGo Web 検索 |
 | **新** `HotTopic` | dataclass | 統一ホットランキングエントリ（タイトル/概要/URL/ソース） |

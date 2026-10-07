@@ -97,6 +97,9 @@ class HotTopic:
 
 ## LLM Extraction Pipeline
 
+The extraction pipeline is optional. Core scraping utilities do not require an
+LLM SDK; install `chinese-scraper-utils[llm]` only when using `DeepSeekClient`.
+
 ### `ExtractedEvent`
 ```python
 @dataclass
@@ -117,7 +120,7 @@ class ExtractedEvent:
 class EventExtractor:
     def __init__(
         self,
-        client: DeepSeekClient,
+        client: LLMClient,
         event_types: list[str],          # ["漫展", "同人展", "演唱会", ...]
         min_confidence: float = 0.5,
         temperature: float = 0.1,
@@ -145,7 +148,7 @@ class EventExtractor:
 五阶段管道：
 1. **Prefilter** — 噪音过滤 + 关键词打分（日期+2/城市+1/场馆+1/活动词+1）
 2. **Domain Filter** — 只提取 event_types 范围内的活动
-3. **LLM Extract** — DeepSeek JSON mode + temperature=0.1
+3. **LLM Extract** — the configured `LLMClient` (DeepSeek JSON mode by default) + temperature=0.1
 4. **Validate & Score** — 规则计算 confidence（date+0.3/city+0.25/venue+0.15/category+0.15/title+0.15）
 5. **Dedup** — 指纹哈希 → 模糊匹配 → 高置信覆盖
 
@@ -156,7 +159,7 @@ class EventExtractor:
 
 ## AI Client
 
-### `DeepSeekClient`
+### `DeepSeekClient` (optional)
 ```python
 class DeepSeekClient:
     def __init__(
@@ -251,6 +254,9 @@ class LLMClient(Protocol):
 ```
 
 `DeepSeekClient` 已满足此协议。第三方 provider 只需实现 `chat`/`chat_json` 即可接入 `EventExtractor`。
+
+核心工具（日期、城市、UA、抓取和搜索）不需要安装 `openai`；只有使用
+`DeepSeekClient` 时才需要 `pip install chinese-scraper-utils[llm]`。
 
 ---
 

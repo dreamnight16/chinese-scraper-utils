@@ -16,10 +16,14 @@ from typing import Any
 
 from chinese_scraper_utils.errors import CircuitBreakerOpen
 
+OpenAI: Any
 try:
-    from openai import APIConnectionError, APIStatusError, APITimeoutError, OpenAI
+    from openai import APIConnectionError, APIStatusError, APITimeoutError
+    from openai import OpenAI as _OpenAI
 except ImportError:  # pragma: no cover - exercised by the optional-dependency test
-    OpenAI = None  # type: ignore[assignment]
+    OpenAI = None
+else:
+    OpenAI = _OpenAI
 
 logger = logging.getLogger(__name__)
 
